@@ -1,0 +1,279 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.App-header {
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.App-header h1 {
+  color: #111;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.App-header p {
+  color: #666;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.nav-tabs button {
+  padding: 0.5rem 0;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-tabs button:hover {
+  color: #000;
+}
+
+.nav-tabs button.active {
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+.main-content {
+  flex: 1;
+  padding: 3rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.App-footer {
+  background: #ffffff;
+  padding: 2rem;
+  text-align: center;
+  color: #888;
+  border-top: 1px solid #eaeaea;
+  font-size: 0.85rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  margin-bottom: 2rem;
+}
+
+.card h2 {
+  color: #111;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.button-primary {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button-primary:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.button-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.alert-success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.alert-error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.alert-info {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 2rem;
+  width: 100%;
+  background: #fafafa;
+  color: #666;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  text-align: center;
+}
+
+.file-label:hover {
+  background: #f5f5f5;
+  border-color: #999;
+  color: #333;
+}
+
+.image-preview {
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+}
+
+.image-preview img {
+  width: 100%;
+  display: block;
+}
+
+.result-card {
+  background: #f8f9fa;
+  color: #111;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 2rem;
+  border: 1px solid #eaeaea;
+}
+
+.result-card.result-invalid {
+  background: #fff5f5;
+  border-color: #feb2b2;
+}
+
+.result-card.result-danger {
+  background: #fffaf0;
+  border-color: #fbd38d;
+}
+
+.result-card.result-safe {
+  background: #f0fff4;
+  border-color: #9ae6b4;
+}
+
+.result-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.result-card .confidence {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+  color: #000;
+}
+
+.result-card .confidence.rejected {
+  font-size: 2rem;
+  color: #e53e3e;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #000;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #000;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.training {
+  background: linear-gradient(90deg, #f6ad55 0%, #ed8936 50%, #dd6b20 100%);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
