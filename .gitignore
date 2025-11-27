@@ -1,1 +1,8 @@
 /.venv
+
+*.h5
+
+node_modules
+build
+.env
+.DS_Store
