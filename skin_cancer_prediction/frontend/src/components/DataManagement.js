@@ -16,19 +16,19 @@ const CLASS_OPTIONS = [
 const TRAINING_CONFIGS = {
   quick: { 
     name: 'Quick Test', 
-    duration: 2, // minutes
+    duration: 20, // minutes
     epochs: 10, 
     description: '2 minute test run' 
   },
   standard: { 
     name: 'Standard', 
-    duration: 20, // minutes
+    duration: 40, // minutes
     epochs: 30, 
     description: '20 minute full training' 
   },
   extended: { 
     name: 'Extended', 
-    duration: 45, // minutes
+    duration: 95, // minutes
     epochs: 50, 
     description: '45 minute deep training' 
   },
