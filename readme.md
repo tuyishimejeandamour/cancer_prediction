@@ -1,179 +1,388 @@
-AFRICAN LEADERSHIP UNIVERSITY
-[BSE]
-[MACHINE LEARNING PIPELINE
+# 🏥 Skin Cancer Detection System
 
-[SUMMATIVE ASSIGNMENT]
-========== OUR MODEL IS ABOUT PREDICTING SKIN CANCER ==========
+AI-powered skin lesion classification using deep learning on the HAM10000 dataset. Classifies skin lesions into 7 diagnostic categories with confidence scoring and risk assessment.
 
-Machine Learning Cycle
+## 🎯 What This Does
 
-Objective:
-You will demonstrate the end-to-end Machine Learning process.
+- **Classifies** skin lesion images into 7 medical categories
+- **Detects** malignant vs benign lesions (melanoma, carcinoma, etc.)
+- **Rejects** non-skin images (out-of-distribution detection)
+- **Provides** confidence scores and medical recommendations
+- **Runs** on CPU (no GPU required)
 
-Overview
-As a Machine Learning engineer, you have been tasked with creating an ML Pipeline and scaling and monitoring it on a cloud platform of your choice. This project focuses on Skin Cancer prediction using the HAM10000 dataset (or synthetic data for testing).
+## 🚀 Quick Start (3 Steps)
 
-Tasks
-Creating a Machine Learning Classification model offline and deploying it.
+### 1. Train the Model
 
-Evaluate the model(s) using all the metrics required on a Jupyter Notebook and demonstrate how good the model(s) are.
+Open and run the Jupyter notebook:
 
-The Breakdown:
+```bash
+jupyter notebook notebook/skin_cancer_evaluation.ipynb
+```
 
-Create the following processes:
-Data acquisition (HAM10000 or Synthetic)
-Data processing
-Model Creation
-Model testing
-Model Retraining
-API creation with Python.
+**Run all cells** to:
 
-## Setup Instructions
+- Organize the HAM10000 dataset
+- Train the MobileNetV2 model
+- Evaluate performance
+- Save model to `models/skin_cancer_7class_mobilenet.h5`
 
-1. **Clone the repository**
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Data Setup:**
+### 2. Start the Application
 
-   - **Option A: Use Synthetic Data (Fastest)**
-     Run the generation script to create dummy images for testing the pipeline.
-     ```bash
-     python src/generate_data.py
-     ```
-   - **Option B: Use HAM10000 Dataset (Real Data)**
-     1. Download the dataset from [Kaggle](https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000).
-     2. Extract the files.
-     3. Update the paths in `src/organize_data.py` to point to your downloaded files.
-     4. Run `python src/organize_data.py` to sort images into `data/train` and `data/test` folders.
+Using Docker (recommended):
 
-4. **Train the Model:**
+```bash
+docker-compose up --build
+```
 
-   ```bash
-   python src/train.py
-   ```
+Or manually:
 
-5. **Run the API:**
+```bash
+# Terminal 1 - Backend API
+pip install -r requirements.txt
+uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
 
-   ```bash
-   uvicorn src.api:app --reload
-   ```
+# Terminal 2 - Frontend
+cd frontend
+npm install
+npm start
+```
 
-   The API will be available at `http://localhost:8000`.
+### 3. Use the Application
 
-6. **Run the Dashboard (UI):**
+- **Frontend UI**: http://localhost:3000
+- **API Docs**: http://localhost:8000/docs
+- **Health Check**: http://localhost:8000/health
 
-   ```bash
-   streamlit run src/app.py
-   ```
+## 📊 How the Data Works
 
-   The dashboard will be available at `http://localhost:8501`.
+### Dataset: HAM10000 (10,015 images)
 
-7. **Load Testing (Locust):**
-   Make sure the API is running, then:
+The project uses the HAM10000 dataset with 7 diagnostic categories:
 
-   ```bash
-   locust -f locustfile.py
-   ```
+| Class     | Full Name                | Type             | Count |
+| --------- | ------------------------ | ---------------- | ----- |
+| **mel**   | Melanoma                 | ⚠️ Malignant     | 1,113 |
+| **bcc**   | Basal Cell Carcinoma     | ⚠️ Malignant     | 514   |
+| **akiec** | Actinic Keratoses        | ⚠️ Pre-cancerous | 327   |
+| **bkl**   | Benign Keratosis         | ✅ Benign        | 1,099 |
+| **nv**    | Melanocytic Nevi (moles) | ✅ Benign        | 6,705 |
+| **df**    | Dermatofibroma           | ✅ Benign        | 115   |
+| **vasc**  | Vascular Lesions         | ✅ Benign        | 142   |
 
-   Open `http://localhost:8089` to start the simulation.
+### Data Organization
 
-8. **Docker Deployment (Recommended):**
-   ```bash
-   docker-compose up --build
-   ```
-   This will start:
-   - Backend API at `http://localhost:8000`
-   - Frontend UI at `http://localhost:3000`
+The notebook automatically organizes images into:
 
-## Project Structure
+```
+data/
+├── HAM10000_metadata.csv         # Original metadata
+├── HAM10000_images_part_1/       # Source images
+├── HAM10000_images_part_2/       # Source images
+├── train_7class/                 # 80% for training
+│   ├── akiec/
+│   ├── bcc/
+│   ├── bkl/
+│   ├── df/
+│   ├── mel/
+│   ├── nv/
+│   └── vasc/
+└── test_7class/                  # 20% for testing
+    ├── akiec/
+    ├── bcc/
+    └── ...
+```
 
-- `src/`: Source code for preprocessing, model, training, API, and UI.
-- `data/`: Directory for dataset (train/test).
-- `models/`: Saved model files.
-- `notebook/`: Jupyter notebooks for experimentation.
-- `locustfile.py`: Load testing script.
-- `Dockerfile`: Container configuration.
+### Data Processing Pipeline
 
-## Features
+1. **Organize**: `organize_ham10000_7class()` splits data into train/test (80/20)
+2. **Load**: `load_data_7class()` creates TensorFlow datasets with caching
+3. **Augment**: Random flips, rotations, zoom, and contrast adjustments
+4. **Preprocess**: Resize to 96x96, normalize for MobileNetV2
+5. **Balance**: Class weights handle the imbalanced dataset (nv: 6705 vs df: 115)
 
-- **Prediction:** Upload an image to classify as Benign or Malignant.
-- **Retraining:** Trigger model retraining from the UI.
-- **Data Management:** Upload new training data via the UI.
-- **Monitoring:** View dataset distribution and model metrics.
+## 🏗️ Model Architecture
 
-Create a UI to cover the following
-Model up-time
-Data Visualizations
-Access to train and retrain functionalities
+**MobileNetV2** - Lightweight CNN optimized for CPU inference
 
-Deploy the processes in task 1 on a cloud platform. Demonstrate the evaluation process of the model in production.
+- **Input**: 96×96 RGB images
+- **Backbone**: Pre-trained MobileNetV2 (ImageNet weights)
+- **Head**: Custom classifier with dropout and regularization
+- **Output**: 7-class softmax with confidence scores
+- **Loss**: Focal Loss (handles class imbalance) + Label Smoothing
+- **Training**: Two-phase (frozen backbone → fine-tuning)
+- **Inference**: ~50-200ms per image on CPU
 
-Simulate a flood of requests (using software Locust - Click here ) send them to the model, and show how the model responds to these requests. Record and show the latency and response time of the requests with different numbers of Docker containers.
+## 🔌 API Endpoints
 
-Demonstrate how a user uploads values/features and the model predicts
+| Endpoint          | Method | Description                           |
+| ----------------- | ------ | ------------------------------------- |
+| `/`               | GET    | API info and version                  |
+| `/predict`        | POST   | Full prediction with OOD detection    |
+| `/predict_simple` | POST   | Quick prediction (class + confidence) |
+| `/upload_data`    | POST   | Upload labeled training images        |
+| `/classes`        | GET    | Get all diagnostic classes            |
+| `/health`         | GET    | System health check                   |
 
-A User should be able to upload new data and trigger retraining.
-The final solution MUST have the following functionalities:
+### Example API Usage
 
-Model prediction - Allow a user to predict one datapoint from an image or sound
-Visualizations - Create visualizations that make sense of different features in your dataset. Create interpretations of at least 3 features in your dataset. What story does it tell?
-Upload Data - Bulk data that will be used to retrain (multiple images, multiple .wav files for sound)
-Trigger retraining based on the uploaded data - Have a feature where one can press a button that can trigger a retraining process
-Github Repo Directory Structure
-Project_name/
-│
-├── README.md
-│
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Predict image
+curl -X POST "http://localhost:8000/predict" \
+  -F "file=@lesion.jpg"
+
+# Response
+{
+  "status": "success",
+  "prediction": "mel",
+  "diagnosis": "Melanoma (Skin Cancer)",
+  "confidence_percent": 87.5,
+  "is_malignant": true,
+  "risk_level": "HIGH",
+  "recommendation": "⚠️ URGENT: Possible melanoma detected..."
+}
+```
+
+## 📁 Project Structure
+
+```
+skin_cancer_prediction/
 ├── notebook/
-│ ├──project_name.ipynb
-│
+│   └── skin_cancer_evaluation.ipynb    # Main training notebook
 ├── src/
-│ ├── preprocessing.py
-│ ├── model.py
-│ └── prediction.py
-│
+│   ├── api.py                          # FastAPI backend
+│   ├── preprocessing.py                # Data loading & processing
+│   ├── prediction.py                   # Inference logic
+│   ├── model.py                        # Model architecture
+│   └── train.py                        # Training script
+├── frontend/
+│   └── src/
+│       ├── App.js                      # React main component
+│       └── components/
+│           ├── Prediction.js           # Upload & predict UI
+│           ├── DataManagement.js       # Training data upload
+│           └── Monitoring.js           # Metrics dashboard
 ├── data/
-│ ├──train/
-│ └── test/
-└── models/
-├── \_model_name.pkl or \_model_name.tf
+│   ├── HAM10000_metadata.csv          # Original labels
+│   ├── HAM10000_images_part_1/        # Source images (1)
+│   ├── HAM10000_images_part_2/        # Source images (2)
+│   ├── train_7class/                  # Training data (7 folders)
+│   └── test_7class/                   # Test data (7 folders)
+├── models/
+│   └── skin_cancer_7class_mobilenet.h5  # Trained model
+├── docker-compose.yml
+├── Dockerfile
+└── requirements.txt
+```
 
-Requirements
-A link to the GitHub repo.
-The README.md should have clear instructions on:
-A video Demo - YouTube Link
-URL where applicable
-The project description
-And clear steps on how to set it up
-Results from Flood Request Simulation
-Notebook
-Should contain detailed preprocessing steps
-Model Training
-Model Test / Prediction Functions
-The model file
-Pickle (.pkl), tensorflow (.tf) or .h5 file
-Submission Instructions
-You will have two attempts during submission Make sure to submit the following in each attempt respectively
+## 🎯 Features
 
-The first attempt will be a Zip File of the GitHub Code Repository
-The second attempt will be a GitHub Repository URL
+### 1. **Smart Prediction**
 
-what is needed: =========CRETERIAL TO FOLLOW====================
+- Upload any image
+- Get 7-class diagnosis
+- See confidence scores for all classes
+- Out-of-distribution rejection (detects non-skin images)
+- Risk assessment and medical recommendations
 
-1. Retraining Process The script + Model file for retraining MUST be present to evaluate this criteria
+### 2. **Data Management**
 
-Clear Demonstration of the following triggers 1. Data file Uploading + Saving to Database (for purposes of retraining) 2. Data Preprocessing of the uploaded data 3. Retraining - The student uses a custom model created as a pre-trained model
+- Upload new labeled images
+- Supports all 7 diagnostic classes
+- Automatic organization into training folders
+- Dataset statistics and distribution
 
-2. Prediction Process The script + model file for prediction MUST be present to evaluate this criterion
+### 3. **Monitoring Dashboard**
 
-Clear Demonstration of the following: 1. Inserting a data point for prediction (Could be an image or inputs of a CSV row, or an audio file) 2. Displays the CORRECT prediction based on the label/class of the data point
+- Model performance metrics
+- Class distribution visualizations
+- Prediction history
+- System health status
 
-3. Evaluation of Models The notebook used to create the model MUST be present to evaluate this criteria
+## 🧪 Model Performance
 
-Clear Preprocessing steps are present with clear use of optimization techniques (Regularization, Optimizers, early stopping,use of a pretrained model or hyper parameter tuning) and Uses At least 4 Evaluation metrics used (Accuracy, loss, F1 score, Precision, Recall e.t.c)
+| Metric          | Value            |
+| --------------- | ---------------- |
+| Test Accuracy   | ~75-85%          |
+| Training Time   | ~45-60 min (CPU) |
+| Inference Speed | ~50-200ms (CPU)  |
+| Model Size      | ~15 MB           |
+| Memory Usage    | ~500 MB RAM      |
 
-4. Deployment Package
+### Per-Class Performance
 
-Showcases a UI using mobile app or Web app (Dockerized or public URL ) Contains some data insights based on the dataset
+The model performs best on:
+
+- **nv** (melanocytic nevi) - 6,705 samples
+- **mel** (melanoma) - 1,113 samples
+- **bkl** (benign keratosis) - 1,099 samples
+
+Lower performance on rare classes:
+
+- **df** (dermatofibroma) - 115 samples
+- **vasc** (vascular lesions) - 142 samples
+
+## 🐳 Docker Deployment
+
+The project includes complete containerization:
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Start in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
+Services:
+
+- **api**: FastAPI backend on port 8000
+- **frontend**: React app on port 3000
+
+## 🔧 Configuration
+
+### Key Settings
+
+**Image Processing** (`src/preprocessing.py`):
+
+```python
+IMG_HEIGHT = 96
+IMG_WIDTH = 96
+BATCH_SIZE = 16
+```
+
+**OOD Detection** (`src/prediction.py`):
+
+```python
+confidence_threshold = 0.50  # 50% minimum
+entropy_threshold = 1.5       # Max uncertainty
+```
+
+**Model Path** (`src/api.py`):
+
+```python
+MODEL_PATH = 'models/skin_cancer_7class_mobilenet.h5'
+```
+
+## 📦 Requirements
+
+- **Python**: 3.9+
+- **Node.js**: 18+
+- **TensorFlow**: 2.13+
+- **Docker** (optional): For containerized deployment
+
+### Key Dependencies
+
+**Python**:
+
+- tensorflow
+- fastapi
+- uvicorn
+- pillow
+- numpy
+- scikit-learn
+- pandas
+- matplotlib
+- seaborn
+
+**JavaScript**:
+
+- react
+- react-dom
+- axios
+- recharts
+
+## 🎓 Key ML Concepts Demonstrated
+
+✅ Transfer learning (MobileNetV2)  
+✅ Multi-class classification (7 classes)  
+✅ Class imbalance handling (Focal Loss + weights)  
+✅ Out-of-distribution detection  
+✅ Data augmentation  
+✅ Model evaluation & visualization  
+✅ REST API deployment  
+✅ Full-stack ML application  
+✅ Docker containerization  
+✅ CPU-optimized inference
+
+## 💡 Tips
+
+- **First time setup**: Run the notebook fully before starting the API
+- **Dataset location**: Make sure HAM10000 data is in `data/` folder
+- **Model not found**: Check that `models/skin_cancer_7class_mobilenet.h5` exists
+- **Slow predictions**: Normal on CPU (50-200ms per image)
+- **OOD rejection**: Upload dermoscopy images, not regular photos
+
+## 📞 Troubleshooting
+
+### Common Issues
+
+**"Model not available" or "Unknown layer: TrueDivide"**
+
+This means the model was trained with a different TensorFlow version. **Solution:**
+
+```bash
+# Open and run all cells in the notebook
+jupyter notebook notebook/skin_cancer_evaluation.ipynb
+```
+
+The model needs to be retrained with your current TensorFlow version (~45-60 min).
+
+---
+
+**"Module not found"**
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+**"Port already in use"**
+
+Stop other services:
+
+```bash
+docker-compose down
+# Or change ports in docker-compose.yml
+```
+
+---
+
+**Low accuracy or "NOT_SKIN_LESION" responses**
+
+The model expects **dermoscopy images** (medical close-up photos). Regular phone photos won't work well.
+
+---
+
+**Predictions are slow**
+
+This is normal on CPU (50-200ms per image). The model is optimized for CPU but still needs time to process.
+
+---
+
+### Getting Help
+
+1. Check model exists: `ls -lh models/skin_cancer_7class_mobilenet.h5`
+2. Check API health: `curl http://localhost:8000/health`
+3. View API logs for detailed errors
+4. Make sure dataset is organized (run notebook Step 2)
+
+## 📄 License
+
+Educational project for African Leadership University - Machine Learning Pipeline Course
+
+---
+
+**Built with ❤️ for medical AI applications**
