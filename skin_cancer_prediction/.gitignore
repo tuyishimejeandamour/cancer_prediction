@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+.venv/
+venv/
+ENV/
+
+# Data directories (large image files)
+data/train/
+data/test/
+data/train_7class/
+data/test_7class/
+
+# Keep metadata
+!data/HAM10000_metadata.csv
+
+# Models (large files)
+models/*.h5
+models/*.keras
+models/*.pb
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+notebook/.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Node (frontend)
+frontend/node_modules/
+frontend/build/
+frontend/.env
