@@ -18,19 +18,19 @@ const TRAINING_CONFIGS = {
     name: 'Quick Test', 
     duration: 20, // minutes
     epochs: 10, 
-    description: '2 minute test run' 
+    description: '20 minute test run' 
   },
   standard: { 
     name: 'Standard', 
     duration: 40, // minutes
     epochs: 30, 
-    description: '20 minute full training' 
+    description: '40 minute full training' 
   },
   extended: { 
     name: 'Extended', 
     duration: 95, // minutes
     epochs: 50, 
-    description: '45 minute deep training' 
+    description: '95 minute deep training' 
   },
 };
 

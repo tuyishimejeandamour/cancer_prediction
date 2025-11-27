@@ -2,6 +2,14 @@
 
 AI-powered skin lesion classification using deep learning on the HAM10000 dataset. Classifies skin lesions into 7 diagnostic categories with confidence scoring and risk assessment.
 
+## Quick Links
+
+| Resource              | Link                                                                                                 |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Live Demo**         | [https://cancerpredictionprivate.vercel.app/](https://cancerpredictionprivate.vercel.app/)           |
+| **Video Demo**        | [YouTube Demo](https://youtu.be/UzNylPFbsOE)                                                         |
+| **API Documentation** | [https://cancer-prediction-7rdt.onrender.com/docs](https://cancer-prediction-7rdt.onrender.com/docs) |
+
 ## What This Does
 
 - **Classifies** skin lesion images into 7 medical categories
@@ -32,7 +40,7 @@ jupyter notebook notebook/skin_cancer_evaluation.ipynb
 Using Docker (recommended):
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 Or manually:
