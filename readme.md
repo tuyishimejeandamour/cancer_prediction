@@ -1,8 +1,8 @@
-# 🏥 Skin Cancer Detection System
+# Skin Cancer Detection System
 
 AI-powered skin lesion classification using deep learning on the HAM10000 dataset. Classifies skin lesions into 7 diagnostic categories with confidence scoring and risk assessment.
 
-## 🎯 What This Does
+## What This Does
 
 - **Classifies** skin lesion images into 7 medical categories
 - **Detects** malignant vs benign lesions (melanoma, carcinoma, etc.)
@@ -10,7 +10,7 @@ AI-powered skin lesion classification using deep learning on the HAM10000 datase
 - **Provides** confidence scores and medical recommendations
 - **Runs** on CPU (no GPU required)
 
-## 🚀 Quick Start (3 Steps)
+## Quick Start (3 Steps)
 
 ### 1. Train the Model
 
@@ -54,21 +54,21 @@ npm start
 - **API Docs**: http://localhost:8000/docs
 - **Health Check**: http://localhost:8000/health
 
-## 📊 How the Data Works
+## How the Data Works
 
 ### Dataset: HAM10000 (10,015 images)
 
 The project uses the HAM10000 dataset with 7 diagnostic categories:
 
-| Class     | Full Name                | Type             | Count |
-| --------- | ------------------------ | ---------------- | ----- |
-| **mel**   | Melanoma                 | ⚠️ Malignant     | 1,113 |
-| **bcc**   | Basal Cell Carcinoma     | ⚠️ Malignant     | 514   |
-| **akiec** | Actinic Keratoses        | ⚠️ Pre-cancerous | 327   |
-| **bkl**   | Benign Keratosis         | ✅ Benign        | 1,099 |
-| **nv**    | Melanocytic Nevi (moles) | ✅ Benign        | 6,705 |
-| **df**    | Dermatofibroma           | ✅ Benign        | 115   |
-| **vasc**  | Vascular Lesions         | ✅ Benign        | 142   |
+| Class     | Full Name                | Type          | Count |
+| --------- | ------------------------ | ------------- | ----- |
+| **mel**   | Melanoma                 | Malignant     | 1,113 |
+| **bcc**   | Basal Cell Carcinoma     | Malignant     | 514   |
+| **akiec** | Actinic Keratoses        | Pre-cancerous | 327   |
+| **bkl**   | Benign Keratosis         | Benign        | 1,099 |
+| **nv**    | Melanocytic Nevi (moles) | Benign        | 6,705 |
+| **df**    | Dermatofibroma           | Benign        | 115   |
+| **vasc**  | Vascular Lesions         | Benign        | 142   |
 
 ### Data Organization
 
@@ -101,7 +101,7 @@ data/
 4. **Preprocess**: Resize to 96x96, normalize for MobileNetV2
 5. **Balance**: Class weights handle the imbalanced dataset (nv: 6705 vs df: 115)
 
-## 🏗️ Model Architecture
+## Model Architecture
 
 **MobileNetV2** - Lightweight CNN optimized for CPU inference
 
@@ -113,7 +113,7 @@ data/
 - **Training**: Two-phase (frozen backbone → fine-tuning)
 - **Inference**: ~50-200ms per image on CPU
 
-## 🔌 API Endpoints
+## API Endpoints
 
 | Endpoint          | Method | Description                           |
 | ----------------- | ------ | ------------------------------------- |
@@ -142,11 +142,11 @@ curl -X POST "http://localhost:8000/predict" \
   "confidence_percent": 87.5,
   "is_malignant": true,
   "risk_level": "HIGH",
-  "recommendation": "⚠️ URGENT: Possible melanoma detected..."
+  "recommendation": "URGENT: Possible melanoma detected..."
 }
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 skin_cancer_prediction/
@@ -178,7 +178,7 @@ skin_cancer_prediction/
 └── requirements.txt
 ```
 
-## 🎯 Features
+## Features
 
 ### 1. **Smart Prediction**
 
@@ -202,7 +202,7 @@ skin_cancer_prediction/
 - Prediction history
 - System health status
 
-## 🧪 Model Performance
+## Model Performance
 
 | Metric          | Value            |
 | --------------- | ---------------- |
@@ -225,7 +225,7 @@ Lower performance on rare classes:
 - **df** (dermatofibroma) - 115 samples
 - **vasc** (vascular lesions) - 142 samples
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 The project includes complete containerization:
 
@@ -248,7 +248,7 @@ Services:
 - **api**: FastAPI backend on port 8000
 - **frontend**: React app on port 3000
 
-## 🔧 Configuration
+## Configuration
 
 ### Key Settings
 
@@ -273,7 +273,7 @@ entropy_threshold = 1.5       # Max uncertainty
 MODEL_PATH = 'models/skin_cancer_7class_mobilenet.h5'
 ```
 
-## 📦 Requirements
+## Requirements
 
 - **Python**: 3.9+
 - **Node.js**: 18+
@@ -301,88 +301,6 @@ MODEL_PATH = 'models/skin_cancer_7class_mobilenet.h5'
 - axios
 - recharts
 
-## 🎓 Key ML Concepts Demonstrated
-
-✅ Transfer learning (MobileNetV2)  
-✅ Multi-class classification (7 classes)  
-✅ Class imbalance handling (Focal Loss + weights)  
-✅ Out-of-distribution detection  
-✅ Data augmentation  
-✅ Model evaluation & visualization  
-✅ REST API deployment  
-✅ Full-stack ML application  
-✅ Docker containerization  
-✅ CPU-optimized inference
-
-## 💡 Tips
-
-- **First time setup**: Run the notebook fully before starting the API
-- **Dataset location**: Make sure HAM10000 data is in `data/` folder
-- **Model not found**: Check that `models/skin_cancer_7class_mobilenet.h5` exists
-- **Slow predictions**: Normal on CPU (50-200ms per image)
-- **OOD rejection**: Upload dermoscopy images, not regular photos
-
-## 📞 Troubleshooting
-
-### Common Issues
-
-**"Model not available" or "Unknown layer: TrueDivide"**
-
-This means the model was trained with a different TensorFlow version. **Solution:**
-
-```bash
-# Open and run all cells in the notebook
-jupyter notebook notebook/skin_cancer_evaluation.ipynb
-```
-
-The model needs to be retrained with your current TensorFlow version (~45-60 min).
-
----
-
-**"Module not found"**
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-**"Port already in use"**
-
-Stop other services:
-
-```bash
-docker-compose down
-# Or change ports in docker-compose.yml
-```
-
----
-
-**Low accuracy or "NOT_SKIN_LESION" responses**
-
-The model expects **dermoscopy images** (medical close-up photos). Regular phone photos won't work well.
-
----
-
-**Predictions are slow**
-
-This is normal on CPU (50-200ms per image). The model is optimized for CPU but still needs time to process.
-
----
-
-### Getting Help
-
-1. Check model exists: `ls -lh models/skin_cancer_7class_mobilenet.h5`
-2. Check API health: `curl http://localhost:8000/health`
-3. View API logs for detailed errors
-4. Make sure dataset is organized (run notebook Step 2)
-
-## 📄 License
+## License
 
 Educational project for African Leadership University - Machine Learning Pipeline Course
-
----
-
-**Built with ❤️ for medical AI applications**
