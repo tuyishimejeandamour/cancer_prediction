@@ -23,9 +23,7 @@ data/test_7class/
 !data/HAM10000_metadata.csv
 
 # Models (large files)
-models/*.h5
-models/*.keras
-models/*.pb
+
 
 # Jupyter Notebook
 .ipynb_checkpoints/

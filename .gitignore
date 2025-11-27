@@ -1,6 +1,5 @@
 /.venv
 
-*.h5
 
 node_modules
 build
